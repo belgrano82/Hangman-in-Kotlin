@@ -17,7 +17,8 @@ class Dictionary {
             val line = scanner.nextLine()
             if (!containUselessDefinitions(line)) {
                 val wordPlusDefinition = line.split(":", limit = 2)
-                if (wordPlusDefinition[0].length > 5) wordsWithDefinitions[wordPlusDefinition[0]] = wordPlusDefinition[1]
+                if (wordPlusDefinition[0].length > 5) wordsWithDefinitions[wordPlusDefinition[0]] =
+                    wordPlusDefinition[1]
             }
         }
         return wordsWithDefinitions
@@ -41,7 +42,8 @@ private fun containUselessDefinitions(line: String): Boolean {
         "Уменьш. к сущ.",
         "Ласк. к сущ.",
         "Уничиж. к сущ.",
-        "Действие по знач. глаг."
+        "Действие по знач. глаг.",
+        "То же, что"
     )
     for (i in uselessDefinitions.indices) {
         if (line.contains(uselessDefinitions[i])) return true

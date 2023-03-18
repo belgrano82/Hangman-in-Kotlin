@@ -19,7 +19,7 @@ class MaskedWord {
         return secretWord
     }
 
-    fun isRussianLetter (enteredLetter: Char): Boolean {
+    fun isRussianLetter(enteredLetter: Char): Boolean {
         val setOfRussianLetters = ("абвгдеёжзийклмнопрстуфхцчшщъыьэюя")
         var letter = true
         if (!setOfRussianLetters.contains(enteredLetter)) letter = false

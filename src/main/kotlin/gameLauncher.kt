@@ -27,7 +27,8 @@ fun main() {
         when (readln()) {
 
             1.toString() -> {
-                if (gameLoop(dictionary.getRandomWord())) wins++ else loses++
+                val gameLoop = GameLoop(dictionary.getRandomWord())
+                if (gameLoop.loadGameLoop()) wins++ else loses++
             }
 
             0.toString() -> break
@@ -49,79 +50,3 @@ fun main() {
     )
 }
 
-fun gameLoop(word: String): Boolean {
-
-    val resultOFGame: Boolean
-    val dictionary = Dictionary()
-    val maskedWord = MaskedWord()
-    val drawHangman = Hangman()
-    val usedLetters: ArrayList<Char> = ArrayList()
-
-    val secretWord = maskedWord.wordInAsterisks(word.toCharArray())
-
-    println(secretWord)
-
-    var mistakes = 0
-
-    while (true) {
-
-        while (!word.toCharArray().contentEquals(secretWord)) {
-
-            print("Введите букву: ")
-            val enteredLetter = readln()
-            if (enteredLetter.length != 1) {
-                println("Вам нужно ввести одну букву!")
-                continue
-
-            } else {
-
-                when (true) {
-
-                    maskedWord.isRussianLetter(enteredLetter[0]) -> {
-                        if (usedLetters.contains(enteredLetter[0])) {
-                            println("Вы уже использовали эту букву! Попробуйте другую.")
-                            continue
-                        } else usedLetters.add(enteredLetter[0])
-                    }
-
-                    else -> {
-                        println("Необходимо ввести букву русского алфавита!")
-                        continue
-                    }
-
-                }
-            }
-
-            val guessSecretWord = maskedWord.openLetter(enteredLetter[0], word.toCharArray(), secretWord)
-            println(guessSecretWord)
-            if (!guessSecretWord.contains(enteredLetter[0])) mistakes++
-            println("Ошибок: $mistakes")
-            println("Использованные буквы: $usedLetters")
-            println(drawHangman.drawHangman(mistakes))
-
-            if (mistakes == 6) break
-        }
-        resultOFGame = if (word.toCharArray().contentEquals(secretWord)) {
-            print("Поздравляем! Вы победили! Это было слово - ${word.uppercase()}! ")
-            true
-        } else {
-            print("Увы... Вы проиграли. Это было слово - ${word.uppercase()}. ")
-            false
-        }
-
-        println("Хотите узнать его значение: [да]/[нет]?")
-        while (true) {
-            when (readln()) {
-                "да" -> {
-                    (println("${word.uppercase()}: ${dictionary.getDefinition(word)}\n"))
-                    break
-                }
-
-                "нет" -> break
-                else -> println("Упс, непонятно :). Вам надо ввести [да] или [нет]!")
-            }
-        }
-        break
-    }
-    return resultOFGame
-}
